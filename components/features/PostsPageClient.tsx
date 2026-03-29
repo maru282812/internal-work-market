@@ -180,12 +180,12 @@ export function PostsPageClient({ newPostHref, initialTab = "ALL" }: PostsPageCl
   const hasActiveFilter = search.trim() !== "" || tab !== "ALL";
 
   return (
-    <div className="flex gap-0 min-h-[calc(100vh-6rem)]">
+    <div className="flex gap-0 h-[calc(100vh-6rem)] overflow-hidden">
 
       {/* ============================================================
           左カラム: 検索条件エリア (27%)
       ============================================================ */}
-      <div className="hidden lg:block w-[27%] min-w-[180px] shrink-0 pr-4 sticky top-0 self-start">
+      <div className="hidden lg:block w-[27%] min-w-[180px] shrink-0 pr-4 overflow-y-auto h-full">
         <div className="bg-white rounded-xl border border-default-100 shadow-sm p-4">
 
           {/* ヘッダー */}
@@ -257,6 +257,7 @@ export function PostsPageClient({ newPostHref, initialTab = "ALL" }: PostsPageCl
       <div
         className={`
           shrink-0 flex flex-col
+          h-full overflow-y-auto
           w-full lg:w-[36%]
           border-x border-default-100 px-4
           ${isMobileDetail ? "hidden lg:flex" : "flex"}
@@ -346,7 +347,7 @@ export function PostsPageClient({ newPostHref, initialTab = "ALL" }: PostsPageCl
       <div
         className={`
           flex-1 min-w-0 pl-4 pb-6
-          lg:sticky lg:top-0 lg:self-start lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto
+          h-full overflow-y-auto
           ${isMobileDetail ? "block" : "hidden lg:block"}
         `}
       >

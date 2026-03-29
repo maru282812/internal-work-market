@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardBody, CardHeader, Chip, Divider, Button } from "@heroui/react";
+import { Chip, Button } from "@heroui/react";
 import { ApplicationModal } from "@/components/common/ApplicationModal";
 import type { PostWithRelations, ApplicationType } from "@/types/database";
 
@@ -39,23 +39,26 @@ export function PostDetailPane({ post }: PostDetailPaneProps) {
 
   return (
     <div>
-      {successMessage && (
-        <div className="mb-4 flex items-center justify-between bg-emerald-50 border border-emerald-200 rounded-lg px-4 py-3">
-          <p className="text-sm text-emerald-700 font-medium">✓ {successMessage}</p>
-          <button
-            onClick={() => setSuccessMessage(null)}
-            className="text-emerald-500 hover:text-emerald-700 text-xl leading-none ml-4"
-            aria-label="閉じる"
-          >
-            ×
-          </button>
-        </div>
-      )}
+      <div className="bg-white rounded-xl border border-default-200 shadow-sm">
+        {/* ── 上部：固定ヘッダーエリア ── */}
+        <div className="sticky top-0 bg-white z-10 rounded-t-xl px-5 pt-5 pb-4 border-b border-default-100 shadow-[0_2px_6px_rgba(0,0,0,0.06)]">
 
-      <Card shadow="sm">
-        <CardHeader className="flex flex-col items-start gap-3 pb-3">
+          {/* 成功メッセージ */}
+          {successMessage && (
+            <div className="mb-3 flex items-center justify-between bg-emerald-50 border border-emerald-200 rounded-lg px-4 py-2.5">
+              <p className="text-sm text-emerald-700 font-medium">✓ {successMessage}</p>
+              <button
+                onClick={() => setSuccessMessage(null)}
+                className="text-emerald-500 hover:text-emerald-700 text-xl leading-none ml-4"
+                aria-label="閉じる"
+              >
+                ×
+              </button>
+            </div>
+          )}
+
           {/* Type + status badges */}
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center gap-2 flex-wrap mb-3">
             <Chip size="sm" color={isOfficial ? "primary" : "success"} variant="flat">
               {isOfficial ? "公式案件" : "気軽に投稿"}
             </Chip>
@@ -68,10 +71,10 @@ export function PostDetailPane({ post }: PostDetailPaneProps) {
           </div>
 
           {/* Title */}
-          <h1 className="text-xl font-bold text-default-900 leading-snug">{post.title}</h1>
+          <h1 className="text-xl font-bold text-default-900 leading-snug mb-2">{post.title}</h1>
 
           {/* Meta */}
-          <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-default-500">
+          <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-default-500 mb-3">
             <span>{companyName}</span>
             {isOfficial && post.price_text && (
               <span className="font-semibold text-primary">💰 {post.price_text}</span>
@@ -92,7 +95,7 @@ export function PostDetailPane({ post }: PostDetailPaneProps) {
           </div>
 
           {/* Action buttons */}
-          <div className="flex gap-2 w-full pt-1">
+          <div className="flex gap-2 w-full">
             <Button
               color="primary"
               size="md"
@@ -111,11 +114,10 @@ export function PostDetailPane({ post }: PostDetailPaneProps) {
               聞いてみる
             </Button>
           </div>
-        </CardHeader>
+        </div>
 
-        <Divider />
-
-        <CardBody className="py-6">
+        {/* ── 下部：本文エリア ── */}
+        <div className="px-5 py-6">
           <h2 className="text-sm font-semibold text-default-600 mb-3">
             {isOfficial ? "案件詳細" : "投稿内容"}
           </h2>
@@ -130,8 +132,8 @@ export function PostDetailPane({ post }: PostDetailPaneProps) {
               </p>
             </div>
           )}
-        </CardBody>
-      </Card>
+        </div>
+      </div>
 
       {modalType && (
         <ApplicationModal

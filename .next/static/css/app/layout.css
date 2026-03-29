@@ -817,6 +817,9 @@ video {
 .h-full {
   height: 100%;
 }
+.h-\[calc\(100vh-6rem\)\] {
+  height: calc(100vh - 6rem);
+}
 .min-h-0 {
   min-height: 0px;
 }
@@ -1177,6 +1180,10 @@ video {
   --tw-border-opacity: 1;
   border-color: rgb(37 99 235 / var(--tw-border-opacity, 1));
 }
+.border-default-200 {
+  --tw-border-opacity: 1;
+  border-color: hsl(var(--heroui-default-200) / var(--tw-border-opacity, 1));
+}
 .bg-amber-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(254 243 199 / var(--tw-bg-opacity, 1));
@@ -1448,6 +1455,9 @@ video {
 .pl-4 {
   padding-left: 1rem;
 }
+.pt-5 {
+  padding-top: 1.25rem;
+}
 .text-left {
   text-align: left;
 }
@@ -1691,6 +1701,11 @@ video {
 .shadow-\[0_1px_3px_rgba\(0\2c 0\2c 0\2c 0\.08\)\] {
   --tw-shadow: 0 1px 3px rgba(0,0,0,0.08);
   --tw-shadow-colored: 0 1px 3px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+.shadow-\[0_2px_6px_rgba\(0\2c 0\2c 0\2c 0\.06\)\] {
+  --tw-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  --tw-shadow-colored: 0 2px 6px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 .ring-1 {
