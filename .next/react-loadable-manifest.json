@@ -23,7 +23,9 @@
   },
   "node_modules\\@heroui\\react\\node_modules\\@heroui\\popover\\dist\\chunk-NW7HJLND.mjs -> @heroui/dom-animation": {
     "id": "node_modules\\@heroui\\react\\node_modules\\@heroui\\popover\\dist\\chunk-NW7HJLND.mjs -> @heroui/dom-animation",
-    "files": []
+    "files": [
+      "static/chunks/_app-pages-browser_node_modules_heroui_dom-animation_dist_index_mjs.js"
+    ]
   },
   "node_modules\\@heroui\\react\\node_modules\\@heroui\\popover\\dist\\chunk-Z57F4COC.mjs -> @heroui/dom-animation": {
     "id": "node_modules\\@heroui\\react\\node_modules\\@heroui\\popover\\dist\\chunk-Z57F4COC.mjs -> @heroui/dom-animation",

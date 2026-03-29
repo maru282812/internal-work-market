@@ -15,56 +15,114 @@ export function PostListItem({ post, isSelected, onClick }: PostListItemProps) {
     ? new Date(post.deadline_at).toLocaleDateString("ja-JP")
     : null;
   const createdAt = new Date(post.created_at).toLocaleDateString("ja-JP");
-  const userName = post.users?.display_name ?? "匿名";
   const companyName = post.companies?.name ?? "会社不明";
+  const userName = post.users?.display_name ?? "匿名";
 
   return (
     <div
       onClick={onClick}
       className={`
-        p-3 rounded-lg cursor-pointer border transition-all select-none
+        flex flex-col rounded-xl cursor-pointer overflow-hidden select-none
+        transition-all duration-200
         ${
           isSelected
-            ? "bg-primary-50 border-primary-300 shadow-sm"
-            : "bg-white border-default-100 hover:bg-default-50 hover:border-default-200"
+            ? "border-2 border-blue-600 bg-blue-50 shadow-md"
+            : "border border-default-100 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.08)] hover:-translate-y-0.5 hover:shadow-[0_6px_16px_rgba(0,0,0,0.12)]"
         }
       `}
+      style={{ minHeight: "320px" }}
     >
-      <div className="flex items-start justify-between gap-2 mb-1.5">
-        <Chip
-          size="sm"
-          color={isOfficial ? "primary" : "success"}
-          variant="flat"
-          className="shrink-0"
-        >
-          {isOfficial ? "公式" : "気軽"}
-        </Chip>
-        {isOfficial && post.price_text && (
-          <span className="text-xs font-semibold text-primary shrink-0">
-            {post.price_text}
-          </span>
+      {/* ── サムネイル（高さ固定 80px） ─────────────────── */}
+      <div className="w-full overflow-hidden shrink-0" style={{ height: "80px" }}>
+        {post.thumbnail_url ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={post.thumbnail_url}
+            alt={post.title}
+            className="w-full h-full object-cover"
+            style={{ borderRadius: "12px 12px 0 0" }}
+          />
+        ) : (
+          <div
+            className={`w-full h-full flex flex-col items-center justify-center gap-1 px-3
+              ${isOfficial ? "bg-blue-700" : "bg-emerald-500"}`}
+            style={{ borderRadius: "12px 12px 0 0" }}
+          >
+            <span className="text-white/60 font-medium" style={{ fontSize: "10px" }}>
+              {isOfficial ? "公式案件" : "気軽に投稿"}
+            </span>
+            <span className="text-white font-bold text-xs text-center line-clamp-2 leading-snug">
+              {post.title}
+            </span>
+          </div>
         )}
       </div>
 
-      <h3
-        className={`text-sm font-semibold line-clamp-2 mb-1 ${
-          isSelected ? "text-primary-700" : "text-default-800"
-        }`}
-      >
-        {post.title}
-      </h3>
+      {/* ── テキストエリア ──────────────────────────────── */}
+      <div className="flex flex-col flex-1 p-3 overflow-hidden">
 
-      <p className="text-xs text-default-400">{companyName}</p>
+        {/* 種別バッジ */}
+        <div className="mb-2">
+          <Chip
+            size="sm"
+            color={isOfficial ? "primary" : "success"}
+            variant="flat"
+            className="h-5"
+            style={{ fontSize: "11px", padding: "2px 6px" }}
+          >
+            {isOfficial ? "公式" : "気軽"}
+          </Chip>
+        </div>
 
-      <div className="flex gap-3 mt-1">
-        {isOfficial && deadline ? (
-          <p className="text-xs text-default-400">締切: {deadline}</p>
-        ) : (
-          <p className="text-xs text-default-400">投稿日: {createdAt}</p>
-        )}
-        {!isOfficial && (
-          <p className="text-xs text-default-400">{userName}</p>
-        )}
+        {/* タイトル */}
+        <h3
+          className={`line-clamp-2 mb-2 ${
+            isSelected ? "text-blue-700" : "text-default-800"
+          }`}
+          style={{
+            fontSize: "16px",
+            fontWeight: 600,
+            lineHeight: 1.4,
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+          }}
+        >
+          {post.title}
+        </h3>
+
+        {/* 報酬・締切 / 投稿日 */}
+        <div className="flex flex-col gap-1 flex-1">
+          {isOfficial ? (
+            <>
+              {post.price_text && (
+                <p className="text-sm font-bold text-primary">{post.price_text}</p>
+              )}
+              {deadline && (
+                <p className="text-warning-600" style={{ fontSize: "12px", color: "#d97706" }}>
+                  締切: {deadline}
+                </p>
+              )}
+            </>
+          ) : (
+            <p style={{ fontSize: "12px", color: "#6b7280" }}>{createdAt}</p>
+          )}
+        </div>
+
+        {/* 会社名 / 投稿者名 + 補足 */}
+        <div className="mt-auto pt-2 border-t border-default-100">
+          <p className="truncate" style={{ fontSize: "12px", color: "#6b7280" }}>
+            {isOfficial ? companyName : userName}
+          </p>
+          {isOfficial &&
+            post.is_application_limit_enabled &&
+            post.application_limit && (
+              <p className="mt-0.5 text-default-400" style={{ fontSize: "10px" }}>
+                {post.application_limit}名募集
+              </p>
+            )}
+        </div>
       </div>
     </div>
   );

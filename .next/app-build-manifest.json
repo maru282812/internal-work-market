@@ -45,6 +45,31 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/company/official-posts/page.js"
+    ],
+    "/company/my-posts/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/company/my-posts/page.js"
+    ],
+    "/company/casual-posts/new/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/company/casual-posts/new/page.js"
+    ],
+    "/company/my-applications/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/company/my-applications/page.js"
+    ],
+    "/company/my-page/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/company/my-page/page.js"
+    ],
+    "/company/posts/new/official/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/company/posts/new/official/page.js"
     ]
   }
 }

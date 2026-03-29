@@ -26,11 +26,11 @@ export default async function AppLayout({
   const displayName = profile?.display_name ?? user.user_metadata?.display_name ?? "ユーザー";
 
   return (
-    <div className="min-h-screen bg-blue-50 flex">
+    <div className="h-screen overflow-hidden bg-blue-50 flex">
       <UserSidebar />
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 min-h-0">
         {/* ヘッダー */}
-        <header className="bg-white border-b border-default-100 px-6 py-3 flex items-center justify-between sticky top-0 z-10">
+        <header className="bg-white border-b border-default-100 px-6 py-3 flex items-center justify-between shrink-0 z-10">
           <div className="text-sm text-default-500">
             <span className="font-medium text-default-700">WorkMarket</span>
           </div>
@@ -45,7 +45,7 @@ export default async function AppLayout({
           </div>
         </header>
         {/* メインコンテンツ */}
-        <main className="flex-1 p-6 overflow-auto">
+        <main className="flex-1 p-6 overflow-auto min-h-0">
           {children}
         </main>
       </div>
