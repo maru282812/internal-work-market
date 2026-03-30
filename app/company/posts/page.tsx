@@ -1,8 +1,8 @@
-import { createClient } from "@/lib/supabase/server";
 import {
-  PostsManagementClient,
   type PostRow,
+  PostsManagementClient,
 } from "@/components/admin/PostsManagementClient";
+import { createClient } from "@/lib/supabase/server";
 
 export default async function AdminPostsPage() {
   const supabase = await createClient();

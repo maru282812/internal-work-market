@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
 import { Button } from "@heroui/react";
-import { createClient } from "@/lib/supabase/client";
-import { PostDetailCard } from "@/components/common/PostDetailCard";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { ApplicationModal } from "@/components/common/ApplicationModal";
-import type { PostWithRelations, ApplicationType } from "@/types/database";
+import { PostDetailCard } from "@/components/common/PostDetailCard";
+import { createClient } from "@/lib/supabase/client";
+import type { ApplicationType, PostWithRelations } from "@/types/database";
 
 export default function PostDetailPage() {
   const params = useParams();
@@ -23,7 +23,9 @@ export default function PostDetailPage() {
       const supabase = createClient();
       const { data } = await supabase
         .from("posts")
-        .select("*, companies(id, name), users:created_by_user_id(id, display_name, email)")
+        .select(
+          "*, companies(id, name), users:created_by_user_id(id, display_name, email)",
+        )
         .eq("id", id)
         .eq("post_status", "PUBLISHED")
         .single();
@@ -63,7 +65,9 @@ export default function PostDetailPage() {
 
       {applied && (
         <div className="mb-4 bg-success-50 border border-success-200 rounded-lg p-3">
-          <p className="text-success text-sm font-medium">応募・問い合わせを送信しました。</p>
+          <p className="text-success text-sm font-medium">
+            応募・問い合わせを送信しました。
+          </p>
         </div>
       )}
 

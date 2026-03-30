@@ -1,17 +1,17 @@
-import { createClient } from "@/lib/supabase/server";
 import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Chip,
   Button,
+  Chip,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
 } from "@heroui/react";
 import Link from "next/link";
 import { PageHeader } from "@/components/common/PageHeader";
-import type { PostWithRelations, PostType } from "@/types/database";
+import { createClient } from "@/lib/supabase/server";
+import type { PostType, PostWithRelations } from "@/types/database";
 
 const typeLabelMap: Record<PostType, string> = {
   OFFICIAL: "公式案件",
@@ -23,7 +23,9 @@ export default async function ArchivedPostsPage() {
 
   const { data: posts } = await supabase
     .from("posts")
-    .select("*, companies(id, name), users:created_by_user_id(id, display_name, email)")
+    .select(
+      "*, companies(id, name), users:created_by_user_id(id, display_name, email)",
+    )
     .eq("post_status", "CLOSED")
     .order("closed_at", { ascending: false });
 
@@ -31,10 +33,7 @@ export default async function ArchivedPostsPage() {
 
   return (
     <div>
-      <PageHeader
-        title="過去案件"
-        description="終了した案件の一覧"
-      />
+      <PageHeader title="過去案件" description="終了した案件の一覧" />
 
       <div className="bg-white rounded-xl shadow-sm overflow-hidden">
         <Table aria-label="過去案件一覧" removeWrapper>
@@ -55,7 +54,9 @@ export default async function ArchivedPostsPage() {
                 </TableCell>
                 <TableCell>
                   <Chip
-                    color={post.post_type === "OFFICIAL" ? "primary" : "secondary"}
+                    color={
+                      post.post_type === "OFFICIAL" ? "primary" : "secondary"
+                    }
                     size="sm"
                     variant="flat"
                   >

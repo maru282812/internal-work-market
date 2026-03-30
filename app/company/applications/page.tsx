@@ -1,9 +1,9 @@
-import { createClient } from "@/lib/supabase/server";
-import { PageHeader } from "@/components/common/PageHeader";
 import {
   AdminApplicationsClient,
   type ApplicationRow,
 } from "@/components/admin/AdminApplicationsClient";
+import { PageHeader } from "@/components/common/PageHeader";
+import { createClient } from "@/lib/supabase/server";
 
 export default async function AdminApplicationsPage() {
   const supabase = await createClient();
@@ -11,7 +11,7 @@ export default async function AdminApplicationsPage() {
   const { data: applications, error } = await supabase
     .from("applications")
     .select(
-      "id, post_id, applicant_name_snapshot, applicant_email_snapshot, applicant_company_snapshot, post_title_snapshot, application_type, application_status, applied_at, message"
+      "id, post_id, applicant_name_snapshot, applicant_email_snapshot, applicant_company_snapshot, post_title_snapshot, application_type, application_status, applied_at, message",
     )
     .order("applied_at", { ascending: false });
 

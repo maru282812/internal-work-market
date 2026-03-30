@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminHeader } from "@/components/admin/AdminHeader";
+import { AdminSidebar } from "@/components/admin/AdminSidebar";
+import { createClient } from "@/lib/supabase/server";
 
 export default async function CompanyLayout({
   children,
@@ -28,7 +28,8 @@ export default async function CompanyLayout({
     .eq("id", user.id)
     .single();
 
-  const displayName = profile?.display_name ?? user.user_metadata?.display_name ?? "管理者";
+  const displayName =
+    profile?.display_name ?? user.user_metadata?.display_name ?? "管理者";
 
   return (
     <div className="min-h-screen bg-slate-100 flex">
@@ -36,9 +37,7 @@ export default async function CompanyLayout({
       <div className="flex-1 flex flex-col min-w-0">
         <AdminHeader displayName={displayName} email={user.email ?? ""} />
         {/* メインコンテンツ */}
-        <main className="flex-1 p-6 overflow-auto">
-          {children}
-        </main>
+        <main className="flex-1 p-6 overflow-auto">{children}</main>
       </div>
     </div>
   );

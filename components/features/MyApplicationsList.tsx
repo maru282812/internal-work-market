@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { Card, CardBody, CardHeader } from "@heroui/react";
-import { createClient } from "@/lib/supabase/client";
+import { useEffect, useState } from "react";
 import { ApplicationTable } from "@/components/common/ApplicationTable";
 import { PageHeader } from "@/components/common/PageHeader";
+import { createClient } from "@/lib/supabase/client";
 import type { ApplicationWithPost } from "@/types/database";
 
 export function MyApplicationsList() {

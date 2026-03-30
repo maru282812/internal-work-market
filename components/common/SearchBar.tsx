@@ -9,7 +9,12 @@ interface SearchBarProps {
   className?: string;
 }
 
-export function SearchBar({ value, onChange, placeholder = "キーワードで検索", className }: SearchBarProps) {
+export function SearchBar({
+  value,
+  onChange,
+  placeholder = "キーワードで検索",
+  className,
+}: SearchBarProps) {
   return (
     <Input
       value={value}

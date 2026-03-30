@@ -1,17 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import {
+  Button,
   Card,
   CardBody,
   CardHeader,
-  Input,
-  Button,
   Divider,
+  Input,
 } from "@heroui/react";
-import { createClient } from "@/lib/supabase/client";
-import { PageHeader } from "@/components/common/PageHeader";
+import { useEffect, useState } from "react";
 import { formLabelClasses } from "@/components/common/FormField";
+import { PageHeader } from "@/components/common/PageHeader";
+import { createClient } from "@/lib/supabase/client";
 
 const inputClasses = {
   ...formLabelClasses,
@@ -23,7 +23,7 @@ export default function AdminSettingsPage() {
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [notificationEmail, setNotificationEmail] = useState(
-    process.env.NEXT_PUBLIC_ADMIN_NOTIFICATION_EMAIL ?? ""
+    process.env.NEXT_PUBLIC_ADMIN_NOTIFICATION_EMAIL ?? "",
   );
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
@@ -32,7 +32,9 @@ export default function AdminSettingsPage() {
   useEffect(() => {
     const load = async () => {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) return;
       setEmail(user.email ?? "");
       setDisplayName(user.user_metadata?.display_name ?? "");
@@ -47,8 +49,14 @@ export default function AdminSettingsPage() {
     setError(null);
 
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) { setError("認証エラー"); setIsLoading(false); return; }
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
+      setError("認証エラー");
+      setIsLoading(false);
+      return;
+    }
 
     const { error: authError } = await supabase.auth.updateUser({
       data: { display_name: displayName },
@@ -56,7 +64,10 @@ export default function AdminSettingsPage() {
 
     const { error: dbError } = await supabase
       .from("users")
-      .update({ display_name: displayName, updated_at: new Date().toISOString() })
+      .update({
+        display_name: displayName,
+        updated_at: new Date().toISOString(),
+      })
       .eq("id", user.id);
 
     setIsLoading(false);
@@ -81,10 +92,14 @@ export default function AdminSettingsPage() {
           <CardBody className="px-6 py-6">
             <form onSubmit={handleSave} className="flex flex-col gap-6">
               {success && (
-                <p className="text-success text-sm bg-success-50 rounded-lg p-3">{success}</p>
+                <p className="text-success text-sm bg-success-50 rounded-lg p-3">
+                  {success}
+                </p>
               )}
               {error && (
-                <p className="text-danger text-sm bg-danger-50 rounded-lg p-3">{error}</p>
+                <p className="text-danger text-sm bg-danger-50 rounded-lg p-3">
+                  {error}
+                </p>
               )}
               <Input
                 label="管理者名"
@@ -145,8 +160,17 @@ export default function AdminSettingsPage() {
               }}
             />
             <p className="text-xs text-slate-400 leading-relaxed">
-              応募・問い合わせ通知の送信先です。環境変数 <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-600">ADMIN_NOTIFICATION_EMAIL</code> で設定します。<br />
-              通知先の変更は <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-600">.env.local</code> を更新してください。将来的には会社ごとの通知先設定に拡張予定です。
+              応募・問い合わせ通知の送信先です。環境変数{" "}
+              <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-600">
+                ADMIN_NOTIFICATION_EMAIL
+              </code>{" "}
+              で設定します。
+              <br />
+              通知先の変更は{" "}
+              <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-600">
+                .env.local
+              </code>{" "}
+              を更新してください。将来的には会社ごとの通知先設定に拡張予定です。
             </p>
           </CardBody>
         </Card>

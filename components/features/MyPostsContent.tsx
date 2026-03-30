@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/client";
-import { PostTypeBadge } from "@/components/admin/PostTypeBadge";
+import { useEffect, useState } from "react";
 import { PostStatusBadge } from "@/components/admin/PostStatusBadge";
+import { PostTypeBadge } from "@/components/admin/PostTypeBadge";
+import { createClient } from "@/lib/supabase/client";
 import type { PostWithRelations } from "@/types/database";
 
 interface MyPostsContentProps {
@@ -30,7 +30,7 @@ export function MyPostsContent({ editBasePath }: MyPostsContentProps) {
       const { data } = await supabase
         .from("posts")
         .select(
-          "*, companies(id, name), users:created_by_user_id(id, display_name, email)"
+          "*, companies(id, name), users:created_by_user_id(id, display_name, email)",
         )
         .eq("created_by_user_id", user.id)
         .order("updated_at", { ascending: false });

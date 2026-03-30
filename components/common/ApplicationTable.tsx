@@ -1,15 +1,19 @@
 "use client";
 
 import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
   Chip,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
 } from "@heroui/react";
-import type { ApplicationWithPost, ApplicationType, ApplicationStatus } from "@/types/database";
+import type {
+  ApplicationStatus,
+  ApplicationType,
+  ApplicationWithPost,
+} from "@/types/database";
 
 interface ApplicationTableProps {
   applications: ApplicationWithPost[];
@@ -25,7 +29,10 @@ const typeLabelMap: Record<ApplicationType, string> = {
   INQUIRY: "問い合わせ",
 };
 
-const statusColorMap: Record<ApplicationStatus, "default" | "primary" | "success" | "danger" | "warning" | "secondary"> = {
+const statusColorMap: Record<
+  ApplicationStatus,
+  "default" | "primary" | "success" | "danger" | "warning" | "secondary"
+> = {
   APPLIED: "primary",
   REVIEWING: "warning",
   ACCEPTED: "success",

@@ -1,29 +1,33 @@
-import { createClient } from "@/lib/supabase/server";
-import { notFound } from "next/navigation";
 import {
+  Button,
   Card,
   CardBody,
   CardHeader,
+  Chip,
+  Divider,
   Input,
   Textarea,
-  Chip,
-  Button,
-  Divider,
 } from "@heroui/react";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
 import type { PostWithRelations } from "@/types/database";
 
 interface ArchivePostDetailPageProps {
   params: Promise<{ postId: string }>;
 }
 
-export default async function ArchivePostDetailPage({ params }: ArchivePostDetailPageProps) {
+export default async function ArchivePostDetailPage({
+  params,
+}: ArchivePostDetailPageProps) {
   const { postId } = await params;
   const supabase = await createClient();
 
   const { data: post } = await supabase
     .from("posts")
-    .select("*, companies(id, name), users:created_by_user_id(id, display_name, email)")
+    .select(
+      "*, companies(id, name), users:created_by_user_id(id, display_name, email)",
+    )
     .eq("id", postId)
     .eq("post_status", "CLOSED")
     .single();
@@ -43,14 +47,18 @@ export default async function ArchivePostDetailPage({ params }: ArchivePostDetai
         <Button as={Link} href="/company/archive" variant="flat" size="sm">
           ← 過去案件一覧へ
         </Button>
-        <Chip color="default" variant="flat">終了</Chip>
+        <Chip color="default" variant="flat">
+          終了
+        </Chip>
       </div>
 
       <Card shadow="sm">
         <CardHeader className="flex items-start justify-between">
           <div>
             <p className="text-sm text-default-400">{p.companies.name}</p>
-            <h1 className="text-xl font-bold text-default-900 mt-1">{p.title}</h1>
+            <h1 className="text-xl font-bold text-default-900 mt-1">
+              {p.title}
+            </h1>
           </div>
         </CardHeader>
         <Divider />
@@ -61,38 +69,17 @@ export default async function ArchivePostDetailPage({ params }: ArchivePostDetai
               value={p.post_type === "OFFICIAL" ? "公式案件" : "気軽に投稿"}
               isReadOnly
             />
-            <Input
-              label="掲載状態"
-              value="終了"
-              isReadOnly
-            />
-            <Input
-              label="単価"
-              value={p.price_text ?? "—"}
-              isReadOnly
-            />
+            <Input label="掲載状態" value="終了" isReadOnly />
+            <Input label="単価" value={p.price_text ?? "—"} isReadOnly />
             <Input
               label="担当者"
               value={p.contact_person_name ?? "—"}
               isReadOnly
             />
-            <Input
-              label="終了日"
-              value={closedAt}
-              isReadOnly
-            />
-            <Input
-              label="作成者"
-              value={p.users.display_name}
-              isReadOnly
-            />
+            <Input label="終了日" value={closedAt} isReadOnly />
+            <Input label="作成者" value={p.users.display_name} isReadOnly />
           </div>
-          <Textarea
-            label="本文"
-            value={p.body}
-            isReadOnly
-            minRows={6}
-          />
+          <Textarea label="本文" value={p.body} isReadOnly minRows={6} />
         </CardBody>
       </Card>
     </div>

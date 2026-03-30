@@ -1,17 +1,17 @@
 "use client";
 
-import { useState } from "react";
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Button,
-  Textarea,
   Chip,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Textarea,
 } from "@heroui/react";
-import type { Post, ApplicationType } from "@/types/database";
+import { useState } from "react";
+import type { ApplicationType, Post } from "@/types/database";
 
 interface ApplicationModalProps {
   post: Post;
@@ -21,7 +21,10 @@ interface ApplicationModalProps {
   onSuccess: () => void;
 }
 
-function resolveTypeLabel(post: Post, applicationType: ApplicationType): string {
+function resolveTypeLabel(
+  post: Post,
+  applicationType: ApplicationType,
+): string {
   if (applicationType === "INQUIRY") return "聞いてみる";
   // APPLY: 公式案件なら「応募」、気軽投稿なら「参加希望」
   return post.post_type === "OFFICIAL" ? "応募" : "参加希望";
@@ -90,7 +93,9 @@ export function ApplicationModal({
         </ModalHeader>
         <ModalBody>
           {error && (
-            <p className="text-danger text-sm bg-danger-50 rounded-lg p-3">{error}</p>
+            <p className="text-danger text-sm bg-danger-50 rounded-lg p-3">
+              {error}
+            </p>
           )}
           <Textarea
             label={`${typeLabel}メッセージ`}

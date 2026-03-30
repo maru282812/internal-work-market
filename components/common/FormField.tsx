@@ -20,11 +20,7 @@ interface FormFieldProps {
 }
 
 export function FormField({ children, className = "" }: FormFieldProps) {
-  return (
-    <div className={`w-full ${className}`}>
-      {children}
-    </div>
-  );
+  return <div className={`w-full ${className}`}>{children}</div>;
 }
 
 /**
@@ -37,7 +33,11 @@ interface FormSectionProps {
   className?: string;
 }
 
-export function FormSection({ title, children, className = "" }: FormSectionProps) {
+export function FormSection({
+  title,
+  children,
+  className = "",
+}: FormSectionProps) {
   return (
     <div className={`flex flex-col gap-5 ${className}`}>
       {title && (

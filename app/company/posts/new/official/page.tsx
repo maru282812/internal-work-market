@@ -1,7 +1,7 @@
-import { createClient } from "@/lib/supabase/server";
-import { OfficialPostForm } from "@/components/admin/OfficialPostForm";
-import type { Company } from "@/types/database";
 import Link from "next/link";
+import { OfficialPostForm } from "@/components/admin/OfficialPostForm";
+import { createClient } from "@/lib/supabase/server";
+import type { Company } from "@/types/database";
 
 export default async function NewOfficialPostPage() {
   const supabase = await createClient();
@@ -18,7 +18,7 @@ export default async function NewOfficialPostPage() {
               .eq("user_id", user.id)
               .limit(1)
               .single()
-          : { data: null }
+          : { data: null },
       ),
   ]);
 
@@ -44,7 +44,9 @@ export default async function NewOfficialPostPage() {
           </span>
           <div>
             <h1 className="text-xl font-bold text-white">公式案件を投稿</h1>
-            <p className="text-sm text-blue-300 mt-0.5">admin専用 · 業務案件として公開されます</p>
+            <p className="text-sm text-blue-300 mt-0.5">
+              admin専用 · 業務案件として公開されます
+            </p>
           </div>
         </div>
       </div>

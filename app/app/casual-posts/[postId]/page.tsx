@@ -1,8 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Chip,
+  Divider,
+} from "@heroui/react";
 import { useParams, useRouter } from "next/navigation";
-import { Card, CardBody, CardHeader, Chip, Button, Divider } from "@heroui/react";
+import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { PostWithRelations } from "@/types/database";
 
@@ -19,7 +26,9 @@ export default function CasualPostDetailPage() {
       const supabase = createClient();
       const { data } = await supabase
         .from("posts")
-        .select("*, companies(id, name), users:created_by_user_id(id, display_name, email)")
+        .select(
+          "*, companies(id, name), users:created_by_user_id(id, display_name, email)",
+        )
         .eq("id", postId)
         .eq("post_type", "CASUAL")
         .single();
@@ -61,10 +70,16 @@ export default function CasualPostDetailPage() {
         <CardHeader className="flex flex-col items-start gap-3 pb-3">
           <div className="flex items-start justify-between w-full gap-3">
             <div>
-              <p className="text-sm text-default-400 mb-1">{post.users.display_name}</p>
-              <h1 className="text-xl font-bold text-default-900">{post.title}</h1>
+              <p className="text-sm text-default-400 mb-1">
+                {post.users.display_name}
+              </p>
+              <h1 className="text-xl font-bold text-default-900">
+                {post.title}
+              </h1>
             </div>
-            <Chip color="success" variant="flat" size="sm">公開中</Chip>
+            <Chip color="success" variant="flat" size="sm">
+              公開中
+            </Chip>
           </div>
           <p className="text-xs text-default-400">投稿日: {createdAt}</p>
         </CardHeader>

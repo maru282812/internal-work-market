@@ -1,6 +1,13 @@
 "use client";
 
-import { Card, CardBody, CardHeader, Chip, Divider, Button } from "@heroui/react";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Chip,
+  Divider,
+} from "@heroui/react";
 import type { PostWithRelations } from "@/types/database";
 
 interface PostDetailCardProps {
@@ -22,7 +29,12 @@ const statusLabelMap: Record<string, string> = {
   CLOSED: "終了",
 };
 
-export function PostDetailCard({ post, onApply, onInquiry, readonly = false }: PostDetailCardProps) {
+export function PostDetailCard({
+  post,
+  onApply,
+  onInquiry,
+  readonly = false,
+}: PostDetailCardProps) {
   const deadline = post.deadline_at
     ? new Date(post.deadline_at).toLocaleDateString("ja-JP")
     : "未設定";
@@ -35,7 +47,9 @@ export function PostDetailCard({ post, onApply, onInquiry, readonly = false }: P
       <CardHeader className="flex flex-col items-start gap-3 pb-3">
         <div className="flex items-start justify-between w-full gap-3">
           <div className="flex-1">
-            <p className="text-sm text-default-400 mb-1">{post.companies.name}</p>
+            <p className="text-sm text-default-400 mb-1">
+              {post.companies.name}
+            </p>
             <h1 className="text-xl font-bold text-default-900">{post.title}</h1>
           </div>
           <Chip
@@ -49,7 +63,9 @@ export function PostDetailCard({ post, onApply, onInquiry, readonly = false }: P
         <div className="flex flex-wrap gap-4 text-sm text-default-500">
           {post.price_text && (
             <div className="flex items-center gap-1">
-              <span className="font-medium text-primary">💰 {post.price_text}</span>
+              <span className="font-medium text-primary">
+                💰 {post.price_text}
+              </span>
             </div>
           )}
           {post.contact_person_name && (
@@ -71,7 +87,9 @@ export function PostDetailCard({ post, onApply, onInquiry, readonly = false }: P
       <Divider />
 
       <CardBody className="py-6">
-        <h2 className="text-sm font-semibold text-default-600 mb-3">案件詳細</h2>
+        <h2 className="text-sm font-semibold text-default-600 mb-3">
+          案件詳細
+        </h2>
         <div className="whitespace-pre-wrap text-default-700 leading-relaxed">
           {post.body}
         </div>

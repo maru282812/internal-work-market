@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { Button } from "@heroui/react";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/client";
+import { useEffect, useState } from "react";
+import { PostStatusBadge } from "@/components/admin/PostStatusBadge";
+import { PageHeader } from "@/components/common/PageHeader";
 import { PostCard } from "@/components/common/PostCard";
 import { SearchBar } from "@/components/common/SearchBar";
-import { PageHeader } from "@/components/common/PageHeader";
-import { PostStatusBadge } from "@/components/admin/PostStatusBadge";
+import { createClient } from "@/lib/supabase/client";
 import type { PostWithRelations } from "@/types/database";
 
 interface CasualPostsListProps {
@@ -27,9 +27,11 @@ export function CasualPostsList({
   successParam,
 }: CasualPostsListProps) {
   const resolvedDetailPath =
-    postDetailBasePath ?? (mode === "admin" ? "/app/casual-posts" : "/app/casual-posts");
+    postDetailBasePath ??
+    (mode === "admin" ? "/app/casual-posts" : "/app/casual-posts");
   const resolvedNewPath =
-    newPostPath ?? (mode === "admin" ? "/company/casual-posts/new" : "/app/casual-posts/new");
+    newPostPath ??
+    (mode === "admin" ? "/company/casual-posts/new" : "/app/casual-posts/new");
 
   const [posts, setPosts] = useState<PostWithRelations[]>([]);
   const [search, setSearch] = useState("");
@@ -43,7 +45,9 @@ export function CasualPostsList({
 
       let query = supabase
         .from("posts")
-        .select("*, companies(id, name), users:created_by_user_id(id, display_name, email)")
+        .select(
+          "*, companies(id, name), users:created_by_user_id(id, display_name, email)",
+        )
         .eq("post_type", "CASUAL")
         .order("created_at", { ascending: false });
 
@@ -54,7 +58,7 @@ export function CasualPostsList({
 
       if (search.trim()) {
         query = query.or(
-          `title.ilike.%${search.trim()}%,body.ilike.%${search.trim()}%`
+          `title.ilike.%${search.trim()}%,body.ilike.%${search.trim()}%`,
         );
       }
 
@@ -106,7 +110,13 @@ export function CasualPostsList({
       </div>
 
       {isLoading ? (
-        <div className={mode === "admin" ? "flex flex-col gap-2" : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"}>
+        <div
+          className={
+            mode === "admin"
+              ? "flex flex-col gap-2"
+              : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+          }
+        >
           {Array.from({ length: 6 }).map((_, i) => (
             <div key={i} className="bg-white rounded-xl h-12 animate-pulse" />
           ))}

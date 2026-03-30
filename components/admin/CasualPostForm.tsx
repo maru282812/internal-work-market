@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { Input, Textarea, Select, SelectItem, Button } from "@heroui/react";
+import { Button, Input, Select, SelectItem, Textarea } from "@heroui/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import type { Post, Company, PostStatus } from "@/types/database";
+import type { Company, Post, PostStatus } from "@/types/database";
 
 interface CasualPostFormProps {
   post?: Post;
@@ -32,10 +32,10 @@ export function CasualPostForm({
   const [body, setBody] = useState(post?.body ?? "");
   const [thumbnailUrl, setThumbnailUrl] = useState(post?.thumbnail_url ?? "");
   const [companyId, setCompanyId] = useState(
-    post?.company_id ?? defaultCompanyId ?? ""
+    post?.company_id ?? defaultCompanyId ?? "",
   );
   const [postStatus, setPostStatus] = useState<PostStatus>(
-    post?.post_status ?? "OPEN"
+    post?.post_status ?? "OPEN",
   );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -115,7 +115,9 @@ export function CasualPostForm({
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
       {error && (
-        <p className="text-danger text-sm bg-danger-50 rounded-lg p-3">{error}</p>
+        <p className="text-danger text-sm bg-danger-50 rounded-lg p-3">
+          {error}
+        </p>
       )}
 
       <Input

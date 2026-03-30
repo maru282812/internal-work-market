@@ -66,7 +66,6 @@ export async function sendMail(payload: MailPayload): Promise<MailResult> {
     switch (provider) {
       case "resend":
         return await sendWithResend(payload);
-      case "console":
       default:
         return await sendWithConsole(payload);
     }

@@ -1,10 +1,18 @@
 "use client";
 
-import { useState } from "react";
-import { Card, CardBody, CardHeader, Input, Button, Link, Divider } from "@heroui/react";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Divider,
+  Input,
+  Link,
+} from "@heroui/react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import { useState } from "react";
 import { formLabelClasses } from "@/components/common/FormField";
+import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -31,7 +39,9 @@ export default function LoginPage() {
       return;
     }
 
-    const systemRole = data.user?.user_metadata?.system_role as string | undefined;
+    const systemRole = data.user?.user_metadata?.system_role as
+      | string
+      | undefined;
     if (systemRole === "ADMIN") {
       router.push("/company/posts");
     } else {
@@ -45,7 +55,15 @@ export default function LoginPage() {
       <Card className="w-full max-w-lg shadow-lg" shadow="sm">
         <CardHeader className="flex flex-col items-center gap-2 pt-10 pb-6">
           <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">
-            <svg className="text-white" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg
+              className="text-white"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
               <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
               <line x1="8" y1="21" x2="16" y2="21" />
               <line x1="12" y1="17" x2="12" y2="21" />
@@ -74,7 +92,8 @@ export default function LoginPage() {
               size="lg"
               classNames={{
                 ...formLabelClasses,
-                inputWrapper: "bg-white border-slate-300 hover:border-slate-400 h-12",
+                inputWrapper:
+                  "bg-white border-slate-300 hover:border-slate-400 h-12",
                 input: "text-base",
               }}
             />
@@ -91,7 +110,8 @@ export default function LoginPage() {
               size="lg"
               classNames={{
                 ...formLabelClasses,
-                inputWrapper: "bg-white border-slate-300 hover:border-slate-400 h-12",
+                inputWrapper:
+                  "bg-white border-slate-300 hover:border-slate-400 h-12",
                 input: "text-base",
               }}
             />

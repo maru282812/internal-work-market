@@ -70,6 +70,11 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/company/posts/new/official/page.js"
+    ],
+    "/company/posts/[postId]/edit/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/company/posts/[postId]/edit/page.js"
     ]
   }
 }

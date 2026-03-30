@@ -1,13 +1,17 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { useSearchParams } from "next/navigation";
 import { Button, Input } from "@heroui/react";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/client";
-import { PostListItem } from "@/components/features/PostListItem";
+import { useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 import { PostDetailPane } from "@/components/features/PostDetailPane";
-import type { PostWithRelations, PostType } from "@/types/database";
+import { PostListItem } from "@/components/features/PostListItem";
+import { createClient } from "@/lib/supabase/client";
+import type {
+  ApplicationType,
+  PostType,
+  PostWithRelations,
+} from "@/types/database";
 
 type TabType = "ALL" | PostType;
 
@@ -75,7 +79,10 @@ function CheckIcon() {
   );
 }
 
-export function PostsPageClient({ newPostHref, initialTab = "ALL" }: PostsPageClientProps) {
+export function PostsPageClient({
+  newPostHref,
+  initialTab = "ALL",
+}: PostsPageClientProps) {
   const searchParams = useSearchParams();
 
   const [posts, setPosts] = useState<PostWithRelations[]>([]);
@@ -83,10 +90,17 @@ export function PostsPageClient({ newPostHref, initialTab = "ALL" }: PostsPageCl
   const [tab, setTab] = useState<TabType>(initialTab);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedPostId, setSelectedPostId] = useState<string | null>(
-    searchParams.get("post")
+    searchParams.get("post"),
   );
-  const [selectedPost, setSelectedPost] = useState<PostWithRelations | null>(null);
-  const [isMobileDetail, setIsMobileDetail] = useState(!!searchParams.get("post"));
+  const [selectedPost, setSelectedPost] = useState<PostWithRelations | null>(
+    null,
+  );
+  const [isMobileDetail, setIsMobileDetail] = useState(
+    !!searchParams.get("post"),
+  );
+  const [applicationsByPostId, setApplicationsByPostId] = useState<
+    Map<string, Set<ApplicationType>>
+  >(new Map());
 
   // Fetch posts list
   useEffect(() => {
@@ -96,7 +110,9 @@ export function PostsPageClient({ newPostHref, initialTab = "ALL" }: PostsPageCl
 
       let query = supabase
         .from("posts")
-        .select("*, companies(id, name), users:created_by_user_id(id, display_name, email)")
+        .select(
+          "*, companies(id, name), users:created_by_user_id(id, display_name, email)",
+        )
         .eq("post_status", "PUBLISHED")
         .order("created_at", { ascending: false });
 
@@ -105,7 +121,7 @@ export function PostsPageClient({ newPostHref, initialTab = "ALL" }: PostsPageCl
       }
       if (search.trim()) {
         query = query.or(
-          `title.ilike.%${search.trim()}%,body.ilike.%${search.trim()}%`
+          `title.ilike.%${search.trim()}%,body.ilike.%${search.trim()}%`,
         );
       }
 
@@ -120,11 +136,44 @@ export function PostsPageClient({ newPostHref, initialTab = "ALL" }: PostsPageCl
       });
 
       setIsLoading(false);
+
+      // 現在ユーザーの応募状態を取得してカードに反映
+      const postIds = newPosts.map((p) => p.id);
+      if (postIds.length === 0) return;
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) return;
+      const { data: apps } = await supabase
+        .from("applications")
+        .select("post_id, application_type")
+        .eq("applicant_user_id", user.id)
+        .in("post_id", postIds);
+      if (apps) {
+        const map = new Map<string, Set<ApplicationType>>();
+        for (const app of apps) {
+          if (!map.has(app.post_id)) map.set(app.post_id, new Set());
+          map.get(app.post_id)?.add(app.application_type as ApplicationType);
+        }
+        setApplicationsByPostId(map);
+      }
     };
 
     const debounce = setTimeout(fetchPosts, 300);
     return () => clearTimeout(debounce);
   }, [search, tab]);
+
+  const handleApplicationSuccess = useCallback(
+    (postId: string, type: ApplicationType) => {
+      setApplicationsByPostId((prev) => {
+        const next = new Map(prev);
+        if (!next.has(postId)) next.set(postId, new Set());
+        next.get(postId)?.add(type);
+        return next;
+      });
+    },
+    [],
+  );
 
   // Resolve selectedPost from list or fetch individually
   useEffect(() => {
@@ -142,7 +191,9 @@ export function PostsPageClient({ newPostHref, initialTab = "ALL" }: PostsPageCl
       const supabase = createClient();
       const { data } = await supabase
         .from("posts")
-        .select("*, companies(id, name), users:created_by_user_id(id, display_name, email)")
+        .select(
+          "*, companies(id, name), users:created_by_user_id(id, display_name, email)",
+        )
         .eq("id", selectedPostId)
         .eq("post_status", "PUBLISHED")
         .single();
@@ -181,13 +232,11 @@ export function PostsPageClient({ newPostHref, initialTab = "ALL" }: PostsPageCl
 
   return (
     <div className="flex gap-0 h-[calc(100vh-6rem)] overflow-hidden">
-
       {/* ============================================================
           左カラム: 検索条件エリア (27%)
       ============================================================ */}
       <div className="hidden lg:block w-[27%] min-w-[180px] shrink-0 pr-4 overflow-y-auto h-full">
         <div className="bg-white rounded-xl border border-default-100 shadow-sm p-4">
-
           {/* ヘッダー */}
           <div className="flex items-center gap-2 mb-4 pb-3 border-b border-default-100">
             <FilterIcon />
@@ -230,7 +279,9 @@ export function PostsPageClient({ newPostHref, initialTab = "ALL" }: PostsPageCl
                       : "text-default-600 hover:bg-default-50 border border-transparent"
                   }`}
                 >
-                  <span className={`w-2 h-2 rounded-full shrink-0 ${t.color}`} />
+                  <span
+                    className={`w-2 h-2 rounded-full shrink-0 ${t.color}`}
+                  />
                   <span className="flex-1">{t.label}</span>
                   {tab === t.key && <CheckIcon />}
                 </button>
@@ -272,7 +323,13 @@ export function PostsPageClient({ newPostHref, initialTab = "ALL" }: PostsPageCl
             </p>
           </div>
           {newPostHref && (
-            <Button as={Link} href={newPostHref} color="primary" size="sm" className="shrink-0">
+            <Button
+              as={Link}
+              href={newPostHref}
+              color="primary"
+              size="sm"
+              className="shrink-0"
+            >
               + 気軽に投稿
             </Button>
           )}
@@ -334,6 +391,7 @@ export function PostsPageClient({ newPostHref, initialTab = "ALL" }: PostsPageCl
                   post={post}
                   isSelected={post.id === selectedPostId}
                   onClick={() => handleSelectPost(post)}
+                  appliedTypes={applicationsByPostId.get(post.id)}
                 />
               ))}
             </div>
@@ -364,7 +422,10 @@ export function PostsPageClient({ newPostHref, initialTab = "ALL" }: PostsPageCl
         )}
 
         {selectedPost ? (
-          <PostDetailPane post={selectedPost} />
+          <PostDetailPane
+            post={selectedPost}
+            onApplicationSuccess={handleApplicationSuccess}
+          />
         ) : (
           <div className="hidden lg:flex items-center justify-center h-64 bg-white rounded-xl border border-default-100 text-default-400">
             <div className="text-center">

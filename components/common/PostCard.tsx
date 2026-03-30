@@ -1,6 +1,13 @@
 "use client";
 
-import { Card, CardBody, CardFooter, CardHeader, Button, Chip } from "@heroui/react";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Chip,
+} from "@heroui/react";
 import Link from "next/link";
 import type { PostWithRelations } from "@/types/database";
 
@@ -22,13 +29,17 @@ const statusLabelMap: Record<string, string> = {
 };
 
 export function PostCard({ post, href }: PostCardProps) {
-  const bodyPreview = post.body.length > 120 ? post.body.slice(0, 120) + "…" : post.body;
+  const bodyPreview =
+    post.body.length > 120 ? `${post.body.slice(0, 120)}…` : post.body;
   const deadline = post.deadline_at
     ? new Date(post.deadline_at).toLocaleDateString("ja-JP")
     : "未設定";
 
   return (
-    <Card className="w-full hover:shadow-md transition-shadow duration-200" shadow="sm">
+    <Card
+      className="w-full hover:shadow-md transition-shadow duration-200"
+      shadow="sm"
+    >
       {post.thumbnail_url && (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -40,7 +51,9 @@ export function PostCard({ post, href }: PostCardProps) {
       <CardHeader className="flex items-start justify-between gap-2 pb-2">
         <div className="flex-1 min-w-0">
           <p className="text-xs text-default-400 mb-1">{post.companies.name}</p>
-          <h3 className="text-base font-semibold text-default-800 line-clamp-2">{post.title}</h3>
+          <h3 className="text-base font-semibold text-default-800 line-clamp-2">
+            {post.title}
+          </h3>
         </div>
         <Chip
           color={statusColorMap[post.post_status] ?? "default"}

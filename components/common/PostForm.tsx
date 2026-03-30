@@ -1,20 +1,20 @@
 "use client";
 
-import { useState } from "react";
 import {
+  Button,
   Card,
   CardBody,
   CardHeader,
+  Divider,
   Input,
-  Textarea,
   Select,
   SelectItem,
-  Button,
-  Divider,
+  Textarea,
 } from "@heroui/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import type { Post, Company, PostType, PostStatus } from "@/types/database";
+import type { Company, Post, PostStatus, PostType } from "@/types/database";
 
 interface PostFormProps {
   post?: Post;
@@ -39,13 +39,21 @@ export function PostForm({ post, companies, defaultCompanyId }: PostFormProps) {
 
   const [title, setTitle] = useState(post?.title ?? "");
   const [body, setBody] = useState(post?.body ?? "");
-  const [postType, setPostType] = useState<PostType>(post?.post_type ?? "OFFICIAL");
-  const [postStatus, setPostStatus] = useState<PostStatus>(post?.post_status ?? "DRAFT");
-  const [companyId, setCompanyId] = useState(post?.company_id ?? defaultCompanyId ?? "");
+  const [postType, setPostType] = useState<PostType>(
+    post?.post_type ?? "OFFICIAL",
+  );
+  const [postStatus, setPostStatus] = useState<PostStatus>(
+    post?.post_status ?? "DRAFT",
+  );
+  const [companyId, setCompanyId] = useState(
+    post?.company_id ?? defaultCompanyId ?? "",
+  );
   const [priceText, setPriceText] = useState(post?.price_text ?? "");
-  const [contactPersonName, setContactPersonName] = useState(post?.contact_person_name ?? "");
+  const [contactPersonName, setContactPersonName] = useState(
+    post?.contact_person_name ?? "",
+  );
   const [deadlineAt, setDeadlineAt] = useState(
-    post?.deadline_at ? post.deadline_at.slice(0, 16) : ""
+    post?.deadline_at ? post.deadline_at.slice(0, 16) : "",
   );
   const [thumbnailUrl, setThumbnailUrl] = useState(post?.thumbnail_url ?? "");
   const [isLoading, setIsLoading] = useState(false);
@@ -57,8 +65,14 @@ export function PostForm({ post, companies, defaultCompanyId }: PostFormProps) {
     setError(null);
 
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) { setError("認証エラー"); setIsLoading(false); return; }
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
+      setError("認証エラー");
+      setIsLoading(false);
+      return;
+    }
 
     const payload = {
       title,
@@ -69,7 +83,8 @@ export function PostForm({ post, companies, defaultCompanyId }: PostFormProps) {
       price_text: priceText || null,
       contact_person_name: contactPersonName || null,
       deadline_at: deadlineAt ? new Date(deadlineAt).toISOString() : null,
-      published_at: postStatus === "PUBLISHED" ? new Date().toISOString() : null,
+      published_at:
+        postStatus === "PUBLISHED" ? new Date().toISOString() : null,
       closed_at: postStatus === "CLOSED" ? new Date().toISOString() : null,
       thumbnail_url: thumbnailUrl || null,
       updated_at: new Date().toISOString(),
@@ -107,7 +122,9 @@ export function PostForm({ post, companies, defaultCompanyId }: PostFormProps) {
       <CardBody>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {error && (
-            <p className="text-danger text-sm bg-danger-50 rounded-lg p-3">{error}</p>
+            <p className="text-danger text-sm bg-danger-50 rounded-lg p-3">
+              {error}
+            </p>
           )}
 
           <Input
@@ -131,7 +148,9 @@ export function PostForm({ post, companies, defaultCompanyId }: PostFormProps) {
             <Select
               label="投稿種別"
               selectedKeys={[postType]}
-              onSelectionChange={(keys) => setPostType(Array.from(keys)[0] as PostType)}
+              onSelectionChange={(keys) =>
+                setPostType(Array.from(keys)[0] as PostType)
+              }
             >
               {POST_TYPES.map((t) => (
                 <SelectItem key={t.value}>{t.label}</SelectItem>
@@ -141,7 +160,9 @@ export function PostForm({ post, companies, defaultCompanyId }: PostFormProps) {
             <Select
               label="掲載状態"
               selectedKeys={[postStatus]}
-              onSelectionChange={(keys) => setPostStatus(Array.from(keys)[0] as PostStatus)}
+              onSelectionChange={(keys) =>
+                setPostStatus(Array.from(keys)[0] as PostStatus)
+              }
             >
               {POST_STATUSES.map((s) => (
                 <SelectItem key={s.value}>{s.label}</SelectItem>
@@ -152,7 +173,9 @@ export function PostForm({ post, companies, defaultCompanyId }: PostFormProps) {
           <Select
             label="会社"
             selectedKeys={companyId ? [companyId] : []}
-            onSelectionChange={(keys) => setCompanyId(Array.from(keys)[0] as string)}
+            onSelectionChange={(keys) =>
+              setCompanyId(Array.from(keys)[0] as string)
+            }
             isRequired
           >
             {companies.map((c) => (

@@ -8,8 +8,10 @@ interface AdminHeaderProps {
 }
 
 function isOfficialRoute(pathname: string): boolean {
-  return pathname.startsWith("/company/posts/new/official") ||
-    pathname.startsWith("/company/posts/new/official");
+  return (
+    pathname.startsWith("/company/posts/new/official") ||
+    pathname.startsWith("/company/posts/new/official")
+  );
 }
 
 export function AdminHeader({ displayName, email }: AdminHeaderProps) {

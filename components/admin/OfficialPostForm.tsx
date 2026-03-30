@@ -1,17 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import {
-  Input,
-  Textarea,
-  Select,
-  SelectItem,
-  Button,
-} from "@heroui/react";
+import { Button, Input, Select, SelectItem, Textarea } from "@heroui/react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import { useState } from "react";
 import { formLabelClasses } from "@/components/common/FormField";
-import type { Post, Company, PostStatus } from "@/types/database";
+import { createClient } from "@/lib/supabase/client";
+import type { Company, Post, PostStatus } from "@/types/database";
 
 interface OfficialPostFormProps {
   post?: Post;
@@ -57,20 +51,20 @@ export function OfficialPostForm({
   const [requirements, setRequirements] = useState(post?.requirements ?? "");
   const [priceText, setPriceText] = useState(post?.price_text ?? "");
   const [applicationLimit, setApplicationLimit] = useState(
-    post?.application_limit ? String(post.application_limit) : ""
+    post?.application_limit ? String(post.application_limit) : "",
   );
   const [deadlineAt, setDeadlineAt] = useState(
-    post?.deadline_at ? post.deadline_at.slice(0, 16) : ""
+    post?.deadline_at ? post.deadline_at.slice(0, 16) : "",
   );
   const [contactPersonName, setContactPersonName] = useState(
-    post?.contact_person_name ?? ""
+    post?.contact_person_name ?? "",
   );
   const [companyId, setCompanyId] = useState(
-    post?.company_id ?? defaultCompanyId ?? ""
+    post?.company_id ?? defaultCompanyId ?? "",
   );
   const [thumbnailUrl, setThumbnailUrl] = useState(post?.thumbnail_url ?? "");
   const [postStatus, setPostStatus] = useState<PostStatus>(
-    post?.post_status ?? "DRAFT"
+    post?.post_status ?? "DRAFT",
   );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -99,7 +93,9 @@ export function OfficialPostForm({
       company_id: companyId,
       price_text: priceText || null,
       contact_person_name: contactPersonName || null,
-      application_limit: applicationLimit ? parseInt(applicationLimit, 10) : null,
+      application_limit: applicationLimit
+        ? parseInt(applicationLimit, 10)
+        : null,
       deadline_at: deadlineAt ? new Date(deadlineAt).toISOString() : null,
       thumbnail_url: thumbnailUrl || null,
       published_at:
@@ -134,7 +130,9 @@ export function OfficialPostForm({
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
       {error && (
-        <p className="text-danger text-sm bg-danger-50 rounded-lg p-3">{error}</p>
+        <p className="text-danger text-sm bg-danger-50 rounded-lg p-3">
+          {error}
+        </p>
       )}
 
       {/* タイトル */}

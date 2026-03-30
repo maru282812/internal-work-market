@@ -1,9 +1,9 @@
-import { createClient } from "@/lib/supabase/server";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { OfficialPostForm } from "@/components/admin/OfficialPostForm";
 import { NewCasualPostForm } from "@/components/features/NewCasualPostForm";
-import type { Post, Company } from "@/types/database";
-import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
+import type { Company, Post } from "@/types/database";
 
 interface EditPostPageProps {
   params: Promise<{ postId: string }>;
@@ -63,7 +63,9 @@ export default async function EditPostPage({ params }: EditPostPageProps) {
           </span>
           <div>
             <h1 className="text-xl font-bold text-white">公式案件を編集</h1>
-            <p className="text-sm text-blue-300 mt-0.5 line-clamp-1">{p.title}</p>
+            <p className="text-sm text-blue-300 mt-0.5 line-clamp-1">
+              {p.title}
+            </p>
           </div>
         </div>
       </div>

@@ -4,7 +4,12 @@
 export type SystemRole = "ADMIN" | "USER";
 export type AccountStatus = "ACTIVE" | "PRO" | "SUSPENDED";
 export type PostType = "OFFICIAL" | "CASUAL";
-export type PostStatus = "DRAFT" | "PUBLISHED" | "OPEN" | "IN_PROGRESS" | "CLOSED";
+export type PostStatus =
+  | "DRAFT"
+  | "PUBLISHED"
+  | "OPEN"
+  | "IN_PROGRESS"
+  | "CLOSED";
 export type ApplicationType = "APPLY" | "INQUIRY";
 export type ApplicationStatus =
   | "APPLIED"

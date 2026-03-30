@@ -1,19 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import {
+  Button,
   Card,
   CardBody,
   CardHeader,
-  Input,
-  Button,
-  Tabs,
-  Tab,
   Divider,
+  Input,
+  Tab,
+  Tabs,
 } from "@heroui/react";
-import { createClient } from "@/lib/supabase/client";
-import { PageHeader } from "@/components/common/PageHeader";
+import { useEffect, useState } from "react";
 import { formLabelClasses } from "@/components/common/FormField";
+import { PageHeader } from "@/components/common/PageHeader";
+import { createClient } from "@/lib/supabase/client";
 
 const inputClasses = {
   ...formLabelClasses,
@@ -71,7 +71,10 @@ export function MyPageContent() {
 
     const { error: dbError } = await supabase
       .from("users")
-      .update({ display_name: displayName, updated_at: new Date().toISOString() })
+      .update({
+        display_name: displayName,
+        updated_at: new Date().toISOString(),
+      })
       .eq("id", user.id);
 
     setIsProfileLoading(false);
@@ -117,7 +120,10 @@ export function MyPageContent() {
             </CardHeader>
             <Divider />
             <CardBody className="px-6 py-6">
-              <form onSubmit={handleProfileSave} className="flex flex-col gap-6">
+              <form
+                onSubmit={handleProfileSave}
+                className="flex flex-col gap-6"
+              >
                 {profileSuccess && (
                   <p className="text-success text-sm bg-success-50 rounded-lg p-3">
                     {profileSuccess}
@@ -184,7 +190,10 @@ export function MyPageContent() {
             </CardHeader>
             <Divider />
             <CardBody className="px-6 py-6">
-              <form onSubmit={handlePasswordChange} className="flex flex-col gap-6">
+              <form
+                onSubmit={handlePasswordChange}
+                className="flex flex-col gap-6"
+              >
                 {passwordSuccess && (
                   <p className="text-success text-sm bg-success-50 rounded-lg p-3">
                     {passwordSuccess}

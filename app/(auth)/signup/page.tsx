@@ -1,8 +1,16 @@
 "use client";
 
-import { useState } from "react";
-import { Card, CardBody, CardHeader, Input, Button, Link, Divider } from "@heroui/react";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Divider,
+  Input,
+  Link,
+} from "@heroui/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 export default function SignupPage() {
@@ -59,7 +67,15 @@ export default function SignupPage() {
       <Card className="w-full max-w-md shadow-lg" shadow="sm">
         <CardHeader className="flex flex-col items-center gap-2 pt-8 pb-4">
           <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">
-            <svg className="text-white" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg
+              className="text-white"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
               <circle cx="12" cy="7" r="4" />
             </svg>

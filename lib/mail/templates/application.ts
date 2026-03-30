@@ -12,7 +12,10 @@ export interface ApplicationEmailData {
 }
 
 /** アクション種別を日本語ラベルに変換 */
-function resolveActionLabel(applicationType: ApplicationType, postType: PostType): string {
+function resolveActionLabel(
+  applicationType: ApplicationType,
+  postType: PostType,
+): string {
   if (applicationType === "INQUIRY") return "聞いてみる";
   return postType === "OFFICIAL" ? "応募" : "参加希望";
 }
@@ -25,7 +28,7 @@ function resolvePostTypeLabel(postType: PostType): string {
 export function buildApplicationEmailSubject(
   applicationType: ApplicationType,
   postTitle: string,
-  postType: PostType = "OFFICIAL"
+  postType: PostType = "OFFICIAL",
 ): string {
   const actionLabel = resolveActionLabel(applicationType, postType);
   return `【${actionLabel}通知】${postTitle}`;
@@ -44,8 +47,8 @@ export function buildApplicationEmailHtml(data: ApplicationEmailData): string {
     data.applicationType === "INQUIRY"
       ? "badge-inquiry"
       : data.postType === "OFFICIAL"
-      ? "badge-apply"
-      : "badge-participate";
+        ? "badge-apply"
+        : "badge-participate";
 
   return `
 <!DOCTYPE html>

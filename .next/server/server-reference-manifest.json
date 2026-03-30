@@ -41,6 +41,10 @@
         "app/company/posts/new/official/page": {
           "moduleId": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22C%3A%5C%5Cwork%5C%5Cinternal-work-market%5C%5Clib%5C%5Cauth%5C%5Cactions.ts%22%2C%5B%7B%22id%22%3A%2200608aa9197b4354f9df80ff287ac374f8d76f8bfc%22%2C%22exportedName%22%3A%22signOut%22%2C%22filename%22%3A%22..%2FC%3A%5C%5Cwork%5C%5Cinternal-work-market%5C%5Clib%5C%5Cauth%5C%5Cactions.ts%22%7D%5D%5D%5D&__client_imported__=true!",
           "async": false
+        },
+        "app/company/posts/[postId]/edit/page": {
+          "moduleId": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22C%3A%5C%5Cwork%5C%5Cinternal-work-market%5C%5Clib%5C%5Cauth%5C%5Cactions.ts%22%2C%5B%7B%22id%22%3A%2200608aa9197b4354f9df80ff287ac374f8d76f8bfc%22%2C%22exportedName%22%3A%22signOut%22%2C%22filename%22%3A%22..%2FC%3A%5C%5Cwork%5C%5Cinternal-work-market%5C%5Clib%5C%5Cauth%5C%5Cactions.ts%22%7D%5D%5D%5D&__client_imported__=true!",
+          "async": false
         }
       },
       "layer": {
@@ -53,7 +57,8 @@
         "app/company/casual-posts/new/page": "action-browser",
         "app/company/my-applications/page": "action-browser",
         "app/company/my-page/page": "action-browser",
-        "app/company/posts/new/official/page": "action-browser"
+        "app/company/posts/new/official/page": "action-browser",
+        "app/company/posts/[postId]/edit/page": "action-browser"
       },
       "filename": "../C:\\work\\internal-work-market\\lib\\auth\\actions.ts",
       "exportedName": "signOut"

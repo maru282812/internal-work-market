@@ -1,21 +1,21 @@
 "use client";
 
-import { useState, useMemo, useTransition } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
   Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
   Switch,
 } from "@heroui/react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useMemo, useState, useTransition } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { PostTypeBadge } from "./PostTypeBadge";
+import type { PostStatus, PostType } from "@/types/database";
 import { PostStatusBadge } from "./PostStatusBadge";
 import { PostThumbnail } from "./PostThumbnail";
-import type { PostStatus, PostType } from "@/types/database";
+import { PostTypeBadge } from "./PostTypeBadge";
 
 export interface PostRow {
   id: string;
@@ -52,8 +52,10 @@ const CHANGE_STATUSES: { value: PostStatus; label: string }[] = [
   { value: "CLOSED", label: "終了" },
 ];
 
-function isActiveStatus(s: PostStatus): boolean {
-  return s === "DRAFT" || s === "OPEN" || s === "IN_PROGRESS" || s === "PUBLISHED";
+function _isActiveStatus(s: PostStatus): boolean {
+  return (
+    s === "DRAFT" || s === "OPEN" || s === "IN_PROGRESS" || s === "PUBLISHED"
+  );
 }
 
 interface StatusChangerProps {
@@ -62,7 +64,11 @@ interface StatusChangerProps {
   onChanged: (id: string, status: PostStatus) => void;
 }
 
-function StatusChanger({ postId, currentStatus, onChanged }: StatusChangerProps) {
+function StatusChanger({
+  postId,
+  currentStatus,
+  onChanged,
+}: StatusChangerProps) {
   const [isPending, startTransition] = useTransition();
 
   const handleChange = (status: PostStatus) => {
@@ -112,7 +118,9 @@ interface PostsManagementClientProps {
   posts: PostRow[];
 }
 
-export function PostsManagementClient({ posts: initialPosts }: PostsManagementClientProps) {
+export function PostsManagementClient({
+  posts: initialPosts,
+}: PostsManagementClientProps) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabKey>("all");
   const [showClosed, setShowClosed] = useState(false);
@@ -142,13 +150,13 @@ export function PostsManagementClient({ posts: initialPosts }: PostsManagementCl
 
   const handleStatusChange = (id: string, status: PostStatus) => {
     setPosts((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, post_status: status } : p))
+      prev.map((p) => (p.id === id ? { ...p, post_status: status } : p)),
     );
     router.refresh();
   };
 
   // 公式案件モードのアクセント色
-  const officialAccent = isOfficialMode ? "bg-blue-900" : "bg-slate-100";
+  const _officialAccent = isOfficialMode ? "bg-blue-900" : "bg-slate-100";
   const tabActiveClass = isOfficialMode
     ? "border-blue-400 text-blue-200 font-semibold"
     : "border-primary text-primary font-semibold";
@@ -178,10 +186,21 @@ export function PostsManagementClient({ posts: initialPosts }: PostsManagementCl
           <Dropdown>
             <DropdownTrigger>
               <Button
-                className={isOfficialMode ? "bg-blue-800 text-white" : "bg-primary text-white"}
+                className={
+                  isOfficialMode
+                    ? "bg-blue-800 text-white"
+                    : "bg-primary text-white"
+                }
                 size="sm"
                 endContent={
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                  >
                     <polyline points="6 9 12 15 18 9" />
                   </svg>
                 }
@@ -251,7 +270,9 @@ export function PostsManagementClient({ posts: initialPosts }: PostsManagementCl
           ) : (
             <table className="w-full text-sm">
               <thead>
-                <tr className={`border-b ${isOfficialMode ? "border-slate-200 bg-slate-50" : "border-slate-100"}`}>
+                <tr
+                  className={`border-b ${isOfficialMode ? "border-slate-200 bg-slate-50" : "border-slate-100"}`}
+                >
                   <th className="text-left px-4 py-3 text-xs font-medium text-default-500 w-14">
                     サムネ
                   </th>
@@ -351,7 +372,10 @@ export function PostsManagementClient({ posts: initialPosts }: PostsManagementCl
       {showClosed && (
         <p className="text-xs text-default-400 mt-2 text-right">
           過去案件も表示中 ·{" "}
-          <Link href="/company/archive" className="underline hover:text-default-600">
+          <Link
+            href="/company/archive"
+            className="underline hover:text-default-600"
+          >
             過去案件ページへ
           </Link>
         </p>

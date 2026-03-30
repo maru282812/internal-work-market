@@ -1,17 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import {
-  Input,
-  Textarea,
-  Select,
-  SelectItem,
-  Button,
-} from "@heroui/react";
+import { Button, Input, Select, SelectItem, Textarea } from "@heroui/react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import { useEffect, useState } from "react";
 import { formLabelClasses } from "@/components/common/FormField";
-import type { PostStatus, Company } from "@/types/database";
+import { createClient } from "@/lib/supabase/client";
+import type { Company, PostStatus } from "@/types/database";
 
 export interface CasualPostDefaultValues {
   id: string;
@@ -48,9 +42,11 @@ export function NewCasualPostForm({
 
   const [title, setTitle] = useState(defaultValues?.title ?? "");
   const [body, setBody] = useState(defaultValues?.body ?? "");
-  const [thumbnailUrl, setThumbnailUrl] = useState(defaultValues?.thumbnailUrl ?? "");
+  const [thumbnailUrl, setThumbnailUrl] = useState(
+    defaultValues?.thumbnailUrl ?? "",
+  );
   const [postStatus, setPostStatus] = useState<PostStatus>(
-    defaultValues?.postStatus ?? "PUBLISHED"
+    defaultValues?.postStatus ?? "PUBLISHED",
   );
   const [companies, setCompanies] = useState<Company[]>([]);
   const [companyId, setCompanyId] = useState(defaultValues?.companyId ?? "");
@@ -83,8 +79,8 @@ export function NewCasualPostForm({
           });
         }
       });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode, companyId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -149,9 +145,7 @@ export function NewCasualPostForm({
           ? "/company/casual-posts?success=updated"
           : `/app/casual-posts/${defaultValues.id}`;
       router.push(
-        getRedirectPath
-          ? getRedirectPath(defaultValues.id)
-          : defaultRedirect
+        getRedirectPath ? getRedirectPath(defaultValues.id) : defaultRedirect,
       );
       router.refresh();
       return;
@@ -186,7 +180,7 @@ export function NewCasualPostForm({
         ? `/company/casual-posts?success=created`
         : `/app/casual-posts/${inserted.id}`;
     router.push(
-      getRedirectPath ? getRedirectPath(inserted.id) : defaultRedirect
+      getRedirectPath ? getRedirectPath(inserted.id) : defaultRedirect,
     );
     router.refresh();
   };
@@ -248,7 +242,8 @@ export function NewCasualPostForm({
               size="lg"
               classNames={{
                 ...formLabelClasses,
-                inputWrapper: "border-slate-300 hover:border-slate-400 bg-white h-12",
+                inputWrapper:
+                  "border-slate-300 hover:border-slate-400 bg-white h-12",
                 input: "text-base",
               }}
             />
@@ -265,7 +260,8 @@ export function NewCasualPostForm({
               variant="bordered"
               classNames={{
                 ...formLabelClasses,
-                inputWrapper: "border-slate-300 hover:border-slate-400 bg-white",
+                inputWrapper:
+                  "border-slate-300 hover:border-slate-400 bg-white",
                 input: "text-base leading-relaxed py-2",
               }}
             />
@@ -280,7 +276,8 @@ export function NewCasualPostForm({
               size="lg"
               classNames={{
                 ...formLabelClasses,
-                inputWrapper: "border-slate-300 hover:border-slate-400 bg-white h-12",
+                inputWrapper:
+                  "border-slate-300 hover:border-slate-400 bg-white h-12",
                 input: "text-base",
               }}
             />
@@ -303,7 +300,8 @@ export function NewCasualPostForm({
                     variant="bordered"
                     classNames={{
                       ...formLabelClasses,
-                      trigger: "border-slate-300 hover:border-slate-400 bg-white h-12",
+                      trigger:
+                        "border-slate-300 hover:border-slate-400 bg-white h-12",
                       value: "text-base",
                     }}
                   >
@@ -322,7 +320,8 @@ export function NewCasualPostForm({
                     variant="bordered"
                     classNames={{
                       ...formLabelClasses,
-                      trigger: "border-slate-300 hover:border-slate-400 bg-white h-12",
+                      trigger:
+                        "border-slate-300 hover:border-slate-400 bg-white h-12",
                       value: "text-base",
                     }}
                   >

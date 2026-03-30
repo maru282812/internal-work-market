@@ -35,7 +35,9 @@ export function PostThumbnail({
       <span className={`text-white/70 ${textSize} font-medium`}>
         {type === "OFFICIAL" ? "公式" : "気軽"}
       </span>
-      <span className={`text-white font-bold ${textSize} text-center px-1 line-clamp-2 leading-tight`}>
+      <span
+        className={`text-white font-bold ${textSize} text-center px-1 line-clamp-2 leading-tight`}
+      >
         {title.slice(0, 8)}
       </span>
     </div>

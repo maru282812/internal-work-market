@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
 import { Button } from "@heroui/react";
-import { createClient } from "@/lib/supabase/client";
-import { PostDetailCard } from "@/components/common/PostDetailCard";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { ApplicationModal } from "@/components/common/ApplicationModal";
+import { PostDetailCard } from "@/components/common/PostDetailCard";
+import { createClient } from "@/lib/supabase/client";
 import type { PostWithRelations } from "@/types/database";
 
 export function OfficialPostDetail() {
@@ -24,7 +24,9 @@ export function OfficialPostDetail() {
       const supabase = createClient();
       const { data } = await supabase
         .from("posts")
-        .select("*, companies(id, name), users:created_by_user_id(id, display_name, email)")
+        .select(
+          "*, companies(id, name), users:created_by_user_id(id, display_name, email)",
+        )
         .eq("id", postId)
         .eq("post_type", "OFFICIAL")
         .single();
@@ -80,7 +82,7 @@ export function OfficialPostDetail() {
           onClose={() => setApplyOpen(false)}
           onSuccess={() =>
             setSuccessMessage(
-              "応募を送信しました。担当者からの連絡をお待ちください。"
+              "応募を送信しました。担当者からの連絡をお待ちください。",
             )
           }
         />
@@ -94,7 +96,7 @@ export function OfficialPostDetail() {
           onClose={() => setInquiryOpen(false)}
           onSuccess={() =>
             setSuccessMessage(
-              "お問い合わせを送信しました。担当者からの連絡をお待ちください。"
+              "お問い合わせを送信しました。担当者からの連絡をお待ちください。",
             )
           }
         />

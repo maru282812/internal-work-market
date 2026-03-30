@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { useEffect, useState } from "react";
+import { PageHeader } from "@/components/common/PageHeader";
 import { PostCard } from "@/components/common/PostCard";
 import { SearchBar } from "@/components/common/SearchBar";
-import { PageHeader } from "@/components/common/PageHeader";
+import { createClient } from "@/lib/supabase/client";
 import type { PostWithRelations } from "@/types/database";
 
 interface OfficialPostsListProps {
@@ -25,14 +25,16 @@ export function OfficialPostsList({
 
       let query = supabase
         .from("posts")
-        .select("*, companies(id, name), users:created_by_user_id(id, display_name, email)")
+        .select(
+          "*, companies(id, name), users:created_by_user_id(id, display_name, email)",
+        )
         .eq("post_type", "OFFICIAL")
         .eq("post_status", "PUBLISHED")
         .order("created_at", { ascending: false });
 
       if (search.trim()) {
         query = query.or(
-          `title.ilike.%${search.trim()}%,body.ilike.%${search.trim()}%`
+          `title.ilike.%${search.trim()}%,body.ilike.%${search.trim()}%`,
         );
       }
 

@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { Button } from "@heroui/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Button } from "@heroui/react";
+import { useMemo, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { PostTypeBadge } from "./PostTypeBadge";
+import type { PostType, PostWithRelations } from "@/types/database";
 import { PostThumbnail } from "./PostThumbnail";
-import type { PostWithRelations, PostType } from "@/types/database";
+import { PostTypeBadge } from "./PostTypeBadge";
 
 interface ArchiveClientProps {
   posts: PostWithRelations[];
@@ -53,8 +53,12 @@ export function ArchiveClient({ posts }: ArchiveClientProps) {
         price_text: post.price_text,
         contact_person_name: post.contact_person_name,
         application_limit: post.application_limit,
-        requirements: (post as PostWithRelations & { requirements?: string | null }).requirements ?? null,
-        thumbnail_url: (post as PostWithRelations & { thumbnail_url?: string | null }).thumbnail_url ?? null,
+        requirements:
+          (post as PostWithRelations & { requirements?: string | null })
+            .requirements ?? null,
+        thumbnail_url:
+          (post as PostWithRelations & { thumbnail_url?: string | null })
+            .thumbnail_url ?? null,
         created_by_user_id: user.id,
         updated_at: new Date().toISOString(),
       })
@@ -120,12 +124,16 @@ export function ArchiveClient({ posts }: ArchiveClientProps) {
                   ? type === "OFFICIAL"
                     ? "bg-blue-800 text-white"
                     : type === "CASUAL"
-                    ? "bg-emerald-600 text-white"
-                    : "bg-slate-700 text-white"
+                      ? "bg-emerald-600 text-white"
+                      : "bg-slate-700 text-white"
                   : "bg-white border border-slate-200 text-default-600 hover:bg-slate-50"
               }`}
             >
-              {type === "ALL" ? "すべて" : type === "OFFICIAL" ? "公式案件" : "気軽投稿"}
+              {type === "ALL"
+                ? "すべて"
+                : type === "OFFICIAL"
+                  ? "公式案件"
+                  : "気軽投稿"}
             </button>
           ))}
         </div>
@@ -171,7 +179,13 @@ export function ArchiveClient({ posts }: ArchiveClientProps) {
                 >
                   <td className="px-4 py-3">
                     <PostThumbnail
-                      thumbnailUrl={(post as PostWithRelations & { thumbnail_url?: string | null }).thumbnail_url}
+                      thumbnailUrl={
+                        (
+                          post as PostWithRelations & {
+                            thumbnail_url?: string | null;
+                          }
+                        ).thumbnail_url
+                      }
                       title={post.title}
                       type={post.post_type}
                       size="sm"
