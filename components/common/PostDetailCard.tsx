@@ -48,7 +48,7 @@ export function PostDetailCard({
         <div className="flex items-start justify-between w-full gap-3">
           <div className="flex-1">
             <p className="text-sm text-default-400 mb-1">
-              {post.companies.name}
+              {post.companies?.name}
             </p>
             <h1 className="text-xl font-bold text-default-900">{post.title}</h1>
           </div>

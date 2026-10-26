@@ -50,7 +50,9 @@ export function PostCard({ post, href }: PostCardProps) {
       )}
       <CardHeader className="flex items-start justify-between gap-2 pb-2">
         <div className="flex-1 min-w-0">
-          <p className="text-xs text-default-400 mb-1">{post.companies.name}</p>
+          <p className="text-xs text-default-400 mb-1">
+            {post.companies?.name}
+          </p>
           <h3 className="text-base font-semibold text-default-800 line-clamp-2">
             {post.title}
           </h3>

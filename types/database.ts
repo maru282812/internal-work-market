@@ -65,6 +65,7 @@ export interface Post {
   application_limit: number | null;
   is_application_limit_enabled: boolean;
   thumbnail_url: string | null;
+  requirements?: string | null;
   created_at: string;
   updated_at: string;
 }

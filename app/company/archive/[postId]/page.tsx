@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import {
   Button,
   Card,
@@ -6,10 +7,9 @@ import {
   Chip,
   Divider,
   Input,
+  NextLink,
   Textarea,
-} from "@heroui/react";
-import Link from "next/link";
-import { notFound } from "next/navigation";
+} from "@/components/ui/heroui-client";
 import { createClient } from "@/lib/supabase/server";
 import type { PostWithRelations } from "@/types/database";
 
@@ -44,7 +44,7 @@ export default async function ArchivePostDetailPage({
   return (
     <div className="max-w-2xl mx-auto">
       <div className="flex items-center gap-4 mb-6">
-        <Button as={Link} href="/company/archive" variant="flat" size="sm">
+        <Button as={NextLink} href="/company/archive" variant="flat" size="sm">
           ← 過去案件一覧へ
         </Button>
         <Chip color="default" variant="flat">
@@ -55,7 +55,7 @@ export default async function ArchivePostDetailPage({
       <Card shadow="sm">
         <CardHeader className="flex items-start justify-between">
           <div>
-            <p className="text-sm text-default-400">{p.companies.name}</p>
+            <p className="text-sm text-default-400">{p.companies?.name}</p>
             <h1 className="text-xl font-bold text-default-900 mt-1">
               {p.title}
             </h1>
@@ -77,7 +77,7 @@ export default async function ArchivePostDetailPage({
               isReadOnly
             />
             <Input label="終了日" value={closedAt} isReadOnly />
-            <Input label="作成者" value={p.users.display_name} isReadOnly />
+            <Input label="作成者" value={p.users?.display_name} isReadOnly />
           </div>
           <Textarea label="本文" value={p.body} isReadOnly minRows={6} />
         </CardBody>

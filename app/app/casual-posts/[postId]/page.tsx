@@ -71,7 +71,7 @@ export default function CasualPostDetailPage() {
           <div className="flex items-start justify-between w-full gap-3">
             <div>
               <p className="text-sm text-default-400 mb-1">
-                {post.users.display_name}
+                {post.users?.display_name}
               </p>
               <h1 className="text-xl font-bold text-default-900">
                 {post.title}

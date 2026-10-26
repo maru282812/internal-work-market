@@ -10,9 +10,9 @@ export default async function NewOfficialPostPage() {
     supabase.from("companies").select("*").order("name"),
     supabase.auth
       .getUser()
-      .then(({ data: { user } }) =>
+      .then(async ({ data: { user } }) =>
         user
-          ? supabase
+          ? await supabase
               .from("company_members")
               .select("company_id")
               .eq("user_id", user.id)

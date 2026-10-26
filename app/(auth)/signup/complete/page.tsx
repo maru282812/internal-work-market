@@ -1,5 +1,10 @@
-import { Button, Card, CardBody, CardHeader } from "@heroui/react";
-import Link from "next/link";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  NextLink,
+} from "@/components/ui/heroui-client";
 
 export default function SignupCompletePage() {
   return (
@@ -31,7 +36,7 @@ export default function SignupCompletePage() {
             </p>
           </div>
           <Button
-            as={Link}
+            as={NextLink}
             href="/login"
             color="primary"
             size="lg"
