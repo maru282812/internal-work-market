@@ -1,15 +1,15 @@
+import { PageHeader } from "@/components/common/PageHeader";
 import {
   Button,
   Chip,
+  NextLink,
   Table,
   TableBody,
   TableCell,
   TableColumn,
   TableHeader,
   TableRow,
-} from "@heroui/react";
-import Link from "next/link";
-import { PageHeader } from "@/components/common/PageHeader";
+} from "@/components/ui/heroui-client";
 import { createClient } from "@/lib/supabase/server";
 import type { PostType, PostWithRelations } from "@/types/database";
 
@@ -65,7 +65,7 @@ export default async function ArchivedPostsPage() {
                 </TableCell>
                 <TableCell>
                   <span className="text-sm text-default-600">
-                    {post.companies.name}
+                    {post.companies?.name}
                   </span>
                 </TableCell>
                 <TableCell>
@@ -77,7 +77,7 @@ export default async function ArchivedPostsPage() {
                 </TableCell>
                 <TableCell>
                   <Button
-                    as={Link}
+                    as={NextLink}
                     href={`/company/posts/${post.id}/edit`}
                     size="sm"
                     variant="flat"

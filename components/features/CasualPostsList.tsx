@@ -178,11 +178,11 @@ export function CasualPostsList({
                       {post.title}
                     </span>
                     <p className="text-xs text-default-400 mt-0.5">
-                      {post.companies.name}
+                      {post.companies?.name}
                     </p>
                   </td>
                   <td className="px-4 py-3 text-xs text-default-500">
-                    {post.users.display_name}
+                    {post.users?.display_name}
                   </td>
                   <td className="px-4 py-3 text-xs text-default-400">
                     {new Date(post.created_at).toLocaleDateString("ja-JP")}

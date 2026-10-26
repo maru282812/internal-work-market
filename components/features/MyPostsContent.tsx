@@ -96,7 +96,7 @@ export function MyPostsContent({ editBasePath }: MyPostsContentProps) {
                   {post.title}
                 </span>
                 <p className="text-xs text-default-400 mt-0.5">
-                  {post.companies.name}
+                  {post.companies?.name}
                 </p>
               </td>
               <td className="px-4 py-3">
